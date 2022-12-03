@@ -1,129 +1,70 @@
 const input = {
-    A: {
-        B: {
-            C: 2,
-        },
-        D: {
-            E: {
-                F: 3,
-            },
-        },
+    a: {
+      b: {
+        c: 1
+      }                                                                                                                                  
     },
-    G: {
-        H: {
-            I: 4,
-        },
+    d: {
+      e: 2
     },
-};
-
-// Output
-// A.B.C:2
-// A.D.E.F:3
-// G.H.I:4
-
-const input2 = {
-    F: 3,
-    D: {
-        X: 1,
+    f: {
+      g: 3,
+      h: 4
     },
-    E: {
-        F: {
-            M: 12,
-        },
-    },
-};
-
-var path = [];
-var pObj = {};
-
-// var pushTo
-
-var traverseJSON = function (input, p = []) {
-    console.log('Input', input);
-    console.log('TPath', p);
-
-    const topLevelKeys = Object.keys(input);
-
-    topLevelKeys.forEach((key) => {
-        if (typeof input === 'object') {
-            const nextKey = Object.keys(input);
-            p = [...p, ...nextKey];
-            // console.log(':::::::::::::::::', input);
-            // console.log('---------------', p);
-            // console.log('$$$$$$$$$$$$$', nextKey);
-            return traverseJSON(input[nextKey], p);
-        } 
-    });
-
-    return p;
-};
-
-var getPaths = function (input, path = []) {
-    if (typeof input === 'object') {
-        Object.keys(input).forEach(key => {
-            // console.log({ key, path });
-            path.push(key);
-            const finalPath = getPaths(input[key], path);
-            console.log('FINAL PATH', finalPath)
-        });
-    } else {
-        console.log('ELSE', input, path)
+    i: 5,
+    x: 10,
+    m: {
+        n: {
+            o: {
+                p: 11
+            }
+        }
     }
+  };
 
-    return path;
-    // const topLevelKeys = Object.keys(input);
+  function traverse(tree, path, op) {
 
-    // topLevelKeys.map((key) => {
-        // const pathArray = traverseJSON(input[key], [key]);
-        // return `${pathArray.join('.')}`;
-    // });
+        const keys = Object.keys(tree);
 
-    // console.log('Paths', paths);
-};
+        keys.forEach(element => {
+            if(typeof tree[element] === 'object') {
+               path.push(element); 
+               traverse(tree[element], path, op);
+            } else {
 
-getPaths(input);
+                path.push(element);
 
-// console.log('PATH', path);
-// console.log('PATH', JSON.stringify(pObj, undefined, 4));
+                const consolidatedPath = path.join('.');
+                
+                op[consolidatedPath] = tree[element];
+                
+                // console.log({ [consolidatedPath]: tree[element] })
+            }
 
-// debugger;
-// const keys = Object.keys(input);
+            path.pop();
+        })
 
-// keys.forEach((key) => {
-//     // console.log({ key })
-//     if(typeof input[key] === "object" ) {
-//         path.push(key)
-//         traverseJSON(input[key]);
-//     } else {
-//         // path.push(input);
-//         const finalKey = Object.keys(input);
-//         path.push(...finalKey);
+        
+        return op;
+  }
 
-//     //     console.log('\n\n\n')
-//     //     console.log('ELSE::::::::::::::', input, finalKey);
-//         console.log('Input with key::::',  input[key]);
-//         // console.log('Input only :::::::',  input);
-//         // console.log('Input final key:::',  finalKey);
+  function traverseJson(input) {
+    const path = [];
+    const op = {};
+    const output = traverse(input, path, op);
+    
+    console.log(output);
+  }
 
-//     //     pObj[input[key]] = finalKey;
-//     }
-// })
+  traverseJson(input);
+  
+  // Output
+  // {
+  // 'a.b.c': 1,
+  // 'd.e': 2,
+  // 'f.g': 3,
+  // 'f.h': 4,
+  // 'i': 5,
+  // }
+  
 
-// return p;
-// };
-
-// var traverseTree = function (input) {
-//     let path = [];
-//     if (typeof input === 'object') {
-//         for (elem in input) {
-//             path.push(elem);
-
-//             const traversedPath = traverseTree(input[elem]);
-
-//             path.push(traversedPath);
-//         }
-//     } else {
-//         path.push(input)
-//     }
-//     return path.filter(Boolean).join('.');
-// };
