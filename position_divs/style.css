@@ -1,0 +1,39 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  .parent {
+    width: 100vh;
+    height: 90vh;
+    /* border: 1px solid green; */
+    /* color: green; */
+    /* display: flex;
+    justify-content: space-between; */
+  }
+  
+  .top-left {
+    width: 10px;
+    height: 10px;
+    border: 1px solid red;
+  }
+  
+  .center {
+    width: 10px;
+    height: 10px;
+    border: 1px solid blue;
+    top: 50%;
+    right: 50%;
+    position: absolute;
+  }
+  
+  .bottom-right {
+    width: 10px;
+    height: 10px;
+    border: 1px solid violet;
+    position: absolute;
+    /* top: 50%;
+    right: 50%; */
+    top: 89%;
+    right: 6%;
+  }
+  
